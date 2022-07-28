@@ -5,7 +5,7 @@ API zum DiGA-Verzeichnis https://diga.bfarm.de/de/ des Bundesinstituts für Arzn
 ## Beispiel
 
 ```bash
-apps=$(curl 'https://diga-api.bfarm.de/diga-vz/apps/')
+apps=$(curl 'https://diga-api.bfarm.de/diga-vz/apps')
 appDetails=$(curl 'https://diga-api.bfarm.de/diga-vz/apps/961')
 appPrescription=$(curl 'https://diga-api.bfarm.de/diga-vz/prescriptions?filter%5Bapp%5D=961')
 ```
