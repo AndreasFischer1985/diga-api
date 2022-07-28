@@ -1,0 +1,158 @@
+﻿openapi: "3.0.0"
+info:
+  description: "API zum DiGA-Verzeichnis https://diga.bfarm.de/de/ des Bundesinstituts für Arzneimittel und Medizinprodukte BfArM. Das Verzeichnis bietet eine Auswahl an digitalen Gesundheitsanwendungen (DiGA), die vom BfArM gemäß § 139e SGB V bewertet wurden."
+  version: "1.0.0"
+  title: "DiGA API"
+  contact:
+    name:  "AndreasFischer1985"
+    email: "andreasfischer1985@web.de"
+    url: "https://github.com/AndreasFischer1985/diga-api"
+servers:
+  - url: "https://diga-api.bfarm.de/diga-vz"
+externalDocs:
+  description: "Weiterführende Dokumentation"
+  url: "https://github.com/AndreasFischer1985/diga-api"
+  
+paths:
+
+  /apps:
+    get:
+      summary: "Liste aller DiGAs"
+      responses:
+        '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/digalist'
+
+  /apps/{id}:
+    get:
+      summary: "Detail-Informationen zu einer DiGa."	 
+      description: "Detail-Informationen zu einer DiGa."
+      responses:
+        '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/digadetails'
+      parameters:
+        - in: path
+          name: id
+          example: 961
+          required: true
+          schema:
+            type: integer
+  /prescriptions:
+    get:
+      summary: "Technische Informationen zu einer DiGa."	 
+      description: "Detail-Informationen zu einer DiGa."
+      responses:
+        '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/digaprescription'
+      parameters:
+        - in: query
+          name: filter%5Bapp%5D
+          example: 961
+          required: true
+          schema:
+            type: integer
+          
+components: 
+  schemas:    
+    digalist:
+      type: object
+      properties:
+        data: 
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 294
+              type:
+                type: string
+                example: apps
+              attributes:
+                type: object
+              relationships:
+                type: object
+        included: 
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 294
+              type:
+                type: string
+                example: app-answer
+              attributes:
+                type: object
+              relationships:
+                type: object   
+        meta: 
+          type: object
+          properties:
+            id:
+              type: string
+              example: "1659011258436:wl0-l-web0:35304:l61ldvti:21666"
+          
+    digadetails:
+      type: object
+      properties:
+        data: 
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 294
+              type:
+                type: string
+                example: apps
+              attributes:
+                type: object
+              relationships:
+                type: object 
+        meta: 
+          type: object
+          properties:
+            id:
+              type: string
+              example: "1659009146573:wl0-l-web0:35304:l61ldvti:20170"
+
+    digaprescription:
+      type: object
+      properties:
+        data: 
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 27
+              type:
+                type: string
+                example: prescriptions
+              attributes:
+                type: object
+              relationships:
+                type: object 
+        meta: 
+          type: object
+          properties:
+            id:
+              type: string
+              example: "1659009146572:wl0-l-web0:35304:l61ldvti:20169"
+ 
+                   
