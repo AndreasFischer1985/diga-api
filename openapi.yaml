@@ -28,7 +28,7 @@ paths:
 
   /apps/{id}:
     get:
-      summary: "Detail-Informationen zu einer DiGa."	 
+      summary: "Detail-Informationen zu einer DiGa."
       description: "Detail-Informationen zu einer DiGa."
       responses:
         '200':
@@ -46,7 +46,7 @@ paths:
             type: integer
   /prescriptions:
     get:
-      summary: "Technische Informationen zu einer DiGa."	 
+      summary: "Technische Informationen zu einer DiGa."
       description: "Detail-Informationen zu einer DiGa."
       responses:
         '200':
