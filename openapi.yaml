@@ -1,158 +1,145 @@
 ﻿openapi: "3.0.0"
 info:
-  description: "API zum DiGA-Verzeichnis https://diga.bfarm.de/de/ des Bundesinstituts für Arzneimittel und Medizinprodukte BfArM. Das Verzeichnis bietet eine Auswahl an digitalen Gesundheitsanwendungen (DiGA), die vom BfArM gemäß § 139e SGB V bewertet wurden."
-  version: "1.0.0"
+  description: |
+   API zum DiGA-Verzeichnis https://diga.bfarm.de/de/ des Bundesinstituts für Arzneimittel und Medizinprodukte BfArM. Das Verzeichnis bietet eine Auswahl an digitalen Gesundheitsanwendungen (DiGA), die vom BfArM gemäß § 139e SGB V bewertet wurden. 
+   
+   Anfragen sind als GET-requests zu stellen, wobei zur Authorisierung ein Bearer Token im Header "authorization" anzugeben ist, der wiederum einem GET-request an https://diga.bfarm.de/de/verzeichnis zu entnehmen ist (Im contetn von meta name="host-app/config/environment" unter "APP"/"fhir"/"token").
+  version: "2.0.0"
   title: "DiGA API"
   contact:
     name:  "AndreasFischer1985"
     email: "andreasfischer1985@web.de"
     url: "https://github.com/AndreasFischer1985/diga-api"
 servers:
-  - url: "https://diga-api.bfarm.de/diga-vz"
+  - url: "https://diga.bfarm.de/api/fhir/v2.0"
 externalDocs:
   description: "Weiterführende Dokumentation"
   url: "https://github.com/AndreasFischer1985/diga-api"
   
 paths:
 
-  /apps:
+  /DeviceDefinition:
     get:
-      summary: "Liste aller DiGAs"
+      summary: "DeviceDefinition"
       responses:
         '200':
             description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/digalist'
-
-  /apps/{id}:
-    get:
-      summary: "Detail-Informationen zu einer DiGa."
-      description: "Detail-Informationen zu einer DiGa."
-      responses:
-        '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/digadetails'
-      parameters:
-        - in: path
-          name: id
-          example: 961
-          required: true
-          schema:
-            type: integer
-  /prescriptions:
-    get:
-      summary: "Technische Informationen zu einer DiGa."
-      description: "Detail-Informationen zu einer DiGa."
-      responses:
-        '200':
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/digaprescription'
       parameters:
         - in: query
-          name: filter%5Bapp%5D
-          example: 961
+          name: _count
+          example: 1000
           required: true
           schema:
             type: integer
+        - in: query
+          name: _profile
+          example: https%3A%2F%2Ffhir.bfarm.de%2FStructureDefinition%2FHealthApp
+          required: true
+          schema:
+            type: string
+  /CatalogEntry:
+    get:
+      summary: "CatalogEntry"
+      responses:
+        '200':
+            description: OK
+      parameters:
+        - in: query
+          name: _count
+          example: 1000
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: _profile
+          example: https%3A%2F%2Ffhir.bfarm.de%2FStructureDefinition%2FHealthAppCatalogEntry
+          required: true
+          schema:
+            type: string
+  /Organization:
+    get:
+      summary: "Organization"
+      responses:
+        '200':
+            description: OK
+      parameters:
+        - in: query
+          name: _count
+          example: 1000
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: _profile
+          example: https%3A%2F%2Ffhir.bfarm.de%2FStructureDefinition%2FHealthAppManufacturer
+          required: true
+          schema:
+            type: string
+  /ChargeItemDefinition:
+    get:
+      summary: "ChargeItemDefinition"
+      responses:
+        '200':
+            description: OK
+      parameters:
+        - in: query
+          name: _count
+          example: 1000
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: _profile
+          example: https%3A%2F%2Ffhir.bfarm.de%2FStructureDefinition%2FHealthAppPrescriptionUnit
+          required: true
+          schema:
+            type: string
+  /Questionnaire:
+    get:
+      summary: "Questionnaire"
+      responses:
+        '200':
+            description: OK
+      parameters:
+        - in: query
+          name: _count
+          example: 1000
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: _profile
+          example: https%3A%2F%2Ffhir.bfarm.de%2FStructureDefinition%2FHealthAppQuestionnaire
+          required: true
+          schema:
+            type: string
+  /QuestionnaireResponse:
+    get:
+      summary: "Questionnaire"
+      responses:
+        '200':
+            description: OK
+      parameters:
+        - in: query
+          name: _count
+          example: 1000
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: _profile
+          example: https%3A%2F%2Ffhir.bfarm.de%2FStructureDefinition%2FHealthAppQuestionnaireResponse
+          required: true
+          schema:
+            type: string
+
           
 components: 
-  schemas:    
-    digalist:
-      type: object
-      properties:
-        data: 
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 294
-              type:
-                type: string
-                example: apps
-              attributes:
-                type: object
-              relationships:
-                type: object
-        included: 
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 294
-              type:
-                type: string
-                example: app-answer
-              attributes:
-                type: object
-              relationships:
-                type: object   
-        meta: 
-          type: object
-          properties:
-            id:
-              type: string
-              example: "1659011258436:wl0-l-web0:35304:l61ldvti:21666"
-          
-    digadetails:
-      type: object
-      properties:
-        data: 
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 294
-              type:
-                type: string
-                example: apps
-              attributes:
-                type: object
-              relationships:
-                type: object 
-        meta: 
-          type: object
-          properties:
-            id:
-              type: string
-              example: "1659009146573:wl0-l-web0:35304:l61ldvti:20170"
-
-    digaprescription:
-      type: object
-      properties:
-        data: 
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 27
-              type:
-                type: string
-                example: prescriptions
-              attributes:
-                type: object
-              relationships:
-                type: object 
-        meta: 
-          type: object
-          properties:
-            id:
-              type: string
-              example: "1659009146572:wl0-l-web0:35304:l61ldvti:20169"
- 
-                   
+  securitySchemes:
+    bearerAuth:    
+      type: http
+      scheme: bearer
+      description: "Bearer Token"  
+       
+security:
+  - bearerAuth: []          
